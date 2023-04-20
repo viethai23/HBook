@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp"
+    android:background="@drawable/custom_truyen">
+
+    <ImageView
+        android:id="@+id/imageView_LS"
+        android:layout_width="135dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleTextView_LS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <TextView
+            android:id="@+id/authorTextView_LS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="marquee" />
+
+        <TextView
+            android:id="@+id/chapterCurrentTextView_LS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Chapter"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+</LinearLayout>

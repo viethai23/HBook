@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_out_right</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_in_left</item>
+    </style>
+    <style name="MyDialogTheme" parent="@android:style/Theme.Material.Light.Dialog">
+        <item name="android:layout_gravity">end</item>
+        <item name="android:windowBackground">#D6D1D1</item>
+        <item name="android:colorAccent">#AAA4A4</item>
+        <item name="android:textColorPrimary">#0C0C0C</item>
+    </style>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_trangchu"
+        android:title="Trang chủ"
+        android:icon="@drawable/ic_home"/>
+
+    <item android:id="@+id/action_timkiem"
+        android:title="Tìm kiếm"
+        android:icon="@drawable/ic_search"/>
+
+    <item android:id="@+id/action_kesach"
+        android:title="Kệ sách"
+        android:icon="@drawable/ic_bookshelf"/>
+
+    <item android:id="@+id/action_caidat"
+        android:title="Cài đặt"
+        android:icon="@drawable/ic_setting"/>
+</menu>

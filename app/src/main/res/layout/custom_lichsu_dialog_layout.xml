@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_truyen"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ten_truyen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên truyên"
+        android:textSize="24sp"
+        android:textColor="#009688"
+        android:textStyle="bold"
+        android:padding="4dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/xem_gioi_thieu_truyen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xem giới thiệu truyện"
+        android:textColor="@color/black"
+        android:padding="4dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_truyen"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/them_vao_ke_sach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm vào kệ sách"
+        android:textColor="@color/black"
+        android:padding="4dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_truyen"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/xoa_khoi_lich_su"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xóa khỏi lịch sử"
+        android:textColor="@color/black"
+        android:padding="4dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/custom_truyen"
+        android:textSize="16sp"/>
+
+</LinearLayout>
