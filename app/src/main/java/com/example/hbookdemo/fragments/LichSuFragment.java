@@ -91,6 +91,13 @@ public class LichSuFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        createData();
+    }
+
     private void createData() {
         Gson gson = new Gson();
         String json = readFromFile(getContext(), fileName);

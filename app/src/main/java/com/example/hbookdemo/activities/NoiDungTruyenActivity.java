@@ -153,14 +153,11 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                 Intent intent = null;
                 if(from == 1) {
                     intent = new Intent(NoiDungTruyenActivity.this, GioiThieuTruyenActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 }
                 else {
                     intent = new Intent(NoiDungTruyenActivity.this, MainActivity.class);
-                    intent.putExtra("RESTART_FRAGMENT", true);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Fade fade = new Fade();
                     fade.setDuration(500);
@@ -316,7 +313,6 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                             for(int i=0;i<content.size();i++){
                                 if(!content.eq(i).text().equals("") && !content.eq(i).text().startsWith("Chapter")) {
                                     noiDung += content.eq(i).text()+"\n     ";
-                                    Log.d("lines"," line " + i + ": " + content.eq(i).text());
                                 }
                             }
                             return new NoiDung(tenTruyen, tenChuong, noiDung);
@@ -370,6 +366,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
+        finish();
         intent.putExtra("data chuong",b);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide(Gravity.START);
@@ -390,6 +387,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
+        finish();
         intent.putExtra("data chuong",b);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide(Gravity.END);

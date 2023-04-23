@@ -67,6 +67,13 @@ public class KeSachFragment extends Fragment {
         createData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        createData();
+    }
+
     private void createData() {
         Gson gson = new Gson();
         String json = readFromFile(getContext(), fileName);

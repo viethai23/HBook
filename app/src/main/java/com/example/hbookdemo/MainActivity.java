@@ -9,7 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,8 +21,11 @@ import android.widget.Toast;
 
 import com.example.hbookdemo.adapter.ViewPagerAdapter;
 import com.example.hbookdemo.adapter.ViewPagerHomeAdapter;
+import com.example.hbookdemo.fragments.BookShelfFragment;
 import com.example.hbookdemo.fragments.KeSachFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.viewpager);
 
         setUpViewPager();
-
-        Intent intent = getIntent();
-        if (intent != null && intent.getBooleanExtra("RESTART_FRAGMENT", false)) {
-            mViewPager.setCurrentItem(2);
-        }
-
 
         mNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -73,4 +74,5 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(viewPagerAdapter);
 
     }
+
 }

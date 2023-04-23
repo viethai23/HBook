@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.hbookdemo.MainActivity;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ChuongAdapter;
 import com.example.hbookdemo.object.Chuong;
@@ -162,7 +163,18 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(GioiThieuTruyenActivity.this, MainActivity.class);
                 finish();
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Fade fade = new Fade();
+                    fade.setDuration(500);
+                    getWindow().setEnterTransition(fade);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(GioiThieuTruyenActivity.this);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    startActivity(intent);
+                }
             }
         });
 
