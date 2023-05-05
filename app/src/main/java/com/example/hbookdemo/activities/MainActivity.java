@@ -1,4 +1,4 @@
-package com.example.hbookdemo;
+package com.example.hbookdemo.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ViewPagerAdapter;
 import com.example.hbookdemo.adapter.ViewPagerHomeAdapter;
 import com.example.hbookdemo.fragments.BookShelfFragment;

@@ -18,13 +18,21 @@ import com.example.hbookdemo.adapter.TruyenAdapter;
 import com.example.hbookdemo.object.TheLoai;
 import com.example.hbookdemo.object.Truyen;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.security.cert.X509Certificate;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -134,6 +142,7 @@ public class TheLoaiTruyenActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }));
+
                 }, error -> {
                     Log.d("TTT", "Loi lay truyen");
                 });

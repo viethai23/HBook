@@ -8,24 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Slide;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,13 +30,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.hbookdemo.MainActivity;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ChuongAdapter;
 import com.example.hbookdemo.fragments.LichSuFragment;
 import com.example.hbookdemo.object.Chuong;
-import com.example.hbookdemo.object.GioiThieu;
 import com.example.hbookdemo.object.NoiDung;
 import com.example.hbookdemo.object.TruyenLichSu;
 import com.google.gson.Gson;
@@ -59,8 +50,6 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -69,7 +58,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class NoiDungTruyenActivity extends AppCompatActivity {
 
-    String fileName = "data1.json";
+    private String fileName = "data1.json";
     private TextView tenTruyenTV;
     private TextView tenChuongTV;
     private TextView noiDungTV;
@@ -85,8 +74,8 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private GestureDetectorCompat gestureDetector;
     private AlertDialog alertDialog;
     private TruyenLichSu truyenLichSu;
-    private Disposable disposable;
     private ArrayList mchuongList;
+    private Disposable disposable;
     private int from;
 
     @Override
@@ -98,7 +87,10 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         from = (int) b.getSerializable("from");
         viTri = (int) b.getSerializable("vi tri");
         truyenLichSu = (TruyenLichSu) b.getSerializable("truyen lich su");
-        mchuongList = (ArrayList) b.getSerializable("danh sach chuong");
+        if(b.getSerializable("danh sach chuong") != null)
+            mchuongList = LichSuFragment.mChuongList;
+        else
+            mchuongList = GioiThieuTruyenActivity.mchuongList;
         chuong = (Chuong) mchuongList.get(viTri);
 
         url = chuong.getUrlChuong();
@@ -220,10 +212,11 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 Bundle b = new Bundle();
                 b.putSerializable("from", from);
-                b.putSerializable("danh sach chuong", mchuongList);
+                b.putSerializable("danh sach chuong", 1);
                 b.putSerializable("vi tri", position);
                 b.putSerializable("truyen lich su", truyenLichSu);
                 Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
+                finish();
                 intent.putExtra("data chuong",b);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Fade fade = new Fade();
@@ -362,7 +355,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private void Next() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("danh sach chuong", mchuongList);
+        b.putSerializable("danh sach chuong", 1);
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
@@ -383,7 +376,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private void Prev() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("danh sach chuong", mchuongList);
+        b.putSerializable("danh sach chuong", 1);
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
@@ -432,6 +425,12 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
         overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 

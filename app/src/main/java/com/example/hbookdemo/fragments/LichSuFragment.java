@@ -68,6 +68,7 @@ public class LichSuFragment extends Fragment {
     String fileNameKS = "data_kesach.json";
     String fileName = "data1.json";
     ArrayList<TruyenLichSu> mtruyenList;
+    public static ArrayList mChuongList;
     private RecyclerView truyenRecyclerView;
     private AlertDialog alertDialog;
     private boolean checkKS = false;
@@ -124,8 +125,9 @@ public class LichSuFragment extends Fragment {
                 @Override
                 public void onItemClick(TruyenLichSu truyenLichSu) {
                     Bundle b = new Bundle();
+                    mChuongList = truyenLichSu.getListChuong();
                     b.putSerializable("from", 2);
-                    b.putSerializable("danh sach chuong", truyenLichSu.getListChuong());
+                    b.putSerializable("danh sach chuong", 1);
                     b.putSerializable("vi tri", truyenLichSu.getViTriChuong());
                     b.putSerializable("truyen lich su", truyenLichSu);
                     Intent intent = new Intent(getActivity(), NoiDungTruyenActivity.class);
