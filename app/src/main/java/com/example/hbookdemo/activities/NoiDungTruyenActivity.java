@@ -355,7 +355,6 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private void Next() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("danh sach chuong", 1);
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
@@ -376,7 +375,6 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private void Prev() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("danh sach chuong", 1);
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
