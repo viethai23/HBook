@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Other values-->
+    <attr name="colorTheLoai" format="reference" />
+    <attr name="colorTitle" format="reference"/>
+    <attr name="colorTitleBg" format="reference"/>
+    <attr name="colorOtherBg" format="reference"/>
+    <attr name="fragmentTitle" format="reference"/>
+    <declare-styleable name="FontTextView">
+        <attr name="fontPath" format="string"/>
+    </declare-styleable>
+
+</resources>

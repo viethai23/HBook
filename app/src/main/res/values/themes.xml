@@ -12,5 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorTheLoai">@color/LightTheLoai</item>
+        <item name="colorTitle">@color/title</item>
+        <item name="colorTitleBg">@color/titleBg</item>
+        <item name="colorOtherBg">@color/otherBg</item>
+        <item name="fragmentTitle">@color/primary_color</item>
+        <item name="fontPath">@font/roboto_medium</item>
     </style>
 </resources>

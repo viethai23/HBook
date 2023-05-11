@@ -89,7 +89,9 @@ public class TruyenFullFragment extends Fragment  {
                     try {
                         Document maindoc = Jsoup.connect(url).get();
                         String lastPage = maindoc.select("li.last").select("a").attr("data-page");
-                        lastP = Integer.parseInt(lastPage)+1;
+                        if(!lastPage.equals("")){
+                            lastP = Integer.parseInt(lastPage)+1;
+                        }
                         Document doc = Jsoup.connect(currentPage).get();
                         Elements data = doc.select("div.col-truyen-main").select("div.row");
                         int size = data.size();

@@ -8,9 +8,14 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorTheLoai">@color/LightTheLoai</item>
+        <item name="colorTitle">@color/white</item>
+        <item name="colorTitleBg">@color/black</item>
+        <item name="colorOtherBg">@color/black</item>
+        <item name="fragmentTitle">@color/white</item>
     </style>
 </resources>

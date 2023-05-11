@@ -1,11 +1,14 @@
 package com.example.hbookdemo.adapter;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.hbookdemo.R;
 import com.example.hbookdemo.fragments.MoiCapNhatFragment;
 import com.example.hbookdemo.fragments.TheLoaiFragment;
 import com.example.hbookdemo.fragments.TruyenFullFragment;
@@ -13,8 +16,11 @@ import com.example.hbookdemo.fragments.TruyenHotFragment;
 
 public class ViewPagerHomeAdapter extends FragmentStatePagerAdapter {
 
-    public ViewPagerHomeAdapter(@NonNull FragmentManager fm, int behavior) {
+    private Context context;
+    public ViewPagerHomeAdapter(@NonNull FragmentManager fm, int behavior,Context context) {
+
         super(fm, behavior);
+        this.context = context;
     }
 
     @NonNull
@@ -42,21 +48,17 @@ public class ViewPagerHomeAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = "";
         switch (position) {
             case 0:
-                title = "Mới cập nhật";
-                break;
+                return context.getString(R.string.moiCapNhat);
             case 1:
-                title = "Truyện full";
-                break;
+                return context.getString(R.string.truyenFull);
             case 2:
-                title = "Truyện hot";
-                break;
+                return context.getString(R.string.truyenHot);
             case 3:
-                title = "Thể loại";
-                break;
+                return context.getString(R.string.theLoai);
+            default:
+                return null;
         }
-        return title;
     }
 }

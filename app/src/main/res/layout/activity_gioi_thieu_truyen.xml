@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,17 +33,17 @@
                     android:id="@+id/anhTruyen"
                     android:layout_width="100dp"
                     android:layout_height="150dp"
-                    android:scaleType="fitCenter"
                     android:layout_centerInParent="true"
+                    android:layout_marginTop="8dp"
                     android:padding="4dp"
-                    android:layout_marginTop="8dp"/>
+                    android:scaleType="fitCenter" />
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/tenTruyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -64,19 +63,19 @@
                 android:id="@+id/tacGia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="?attr/colorOnSecondary"/>
 
             <TextView
                 android:id="@+id/theLoai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="?attr/colorOnSecondary"/>
 
             <TextView
                 android:id="@+id/trangThai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="?attr/colorOnSecondary"/>
 
         </LinearLayout>
 
@@ -92,7 +91,7 @@
                 android:id="@+id/moTa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSecondary"
                 android:maxLines="5"
                 android:ellipsize="end"/>
 
@@ -109,10 +108,10 @@
                 android:id="@+id/them_ke_sach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thêm vào kệ sách"
-                android:textColor="@color/white"
+                android:text="@string/themTruyen"
+                android:textColor="?attr/colorButtonNormal"
                 android:layout_centerHorizontal="true"
-                android:backgroundTint="@color/black"/>
+                android:backgroundTint="?attr/colorOnSecondary"/>
 
         </RelativeLayout>
 

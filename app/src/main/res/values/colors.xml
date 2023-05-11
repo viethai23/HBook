@@ -8,4 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary_color">#03A9F4</color>
+    <color name="primaryColor" >#2196F3</color>
+    <color name="dividerColor">#ECECEC</color>
+    <color name="LightTheLoai">#959090</color>
+    <color name="title">#009688</color>
+    <color name="titleBg">#E8DFDF</color>
+    <color name="otherBg">#DCD6D6</color>
 </resources>

@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ChuongAdapter;
 import com.example.hbookdemo.fragments.LichSuFragment;
+import com.example.hbookdemo.manager.FontManager;
 import com.example.hbookdemo.object.Chuong;
 import com.example.hbookdemo.object.GioiThieu;
 import com.example.hbookdemo.object.Truyen;
@@ -56,6 +57,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.security.cert.X509Certificate;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -81,11 +83,16 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
     private Disposable disposable1, disposable2;
     private TruyenLichSu truyenLichSu;
     private Truyen truyen;
-    int page = 0, lastP = 1;
+    private int page = 0, lastP = 1;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_gioi_thieu_truyen);
 
         mapping();

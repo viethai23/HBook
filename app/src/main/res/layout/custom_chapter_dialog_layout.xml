@@ -8,12 +8,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DANH SÁCH CHƯƠNG"
+        android:text="@string/danhSachChuong"
         android:textStyle="bold"
-        android:textColor="#009688"
+        android:textColor="?attr/colorTitle"
         android:textSize="24sp"
         android:gravity="center"
-        android:background="@drawable/custom_truyen"
+        android:background="@drawable/custom_chuong"
         android:padding="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

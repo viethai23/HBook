@@ -7,9 +7,10 @@
         android:id="@+id/tenChuongTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:text="Chương"
         android:paddingStart="4dp"
-        android:background="@drawable/custom_chuong"/>
+        android:background="@drawable/custom_chuong"
+        android:backgroundTint="?attr/colorOnPrimary"/>
 
 </LinearLayout>

@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">HBookDemo</string>
+    <string name="app_name" translatable="false">HBookDemo</string>
+    <string-array name="font_names">
+        <item>Roboto</item>
+        <item>Montserrat</item>
+        <item>DancingScript</item>
+        <item>PlayfairDisplay</item>
+        <item>Yasbeau</item>
+    </string-array>
+    <string-array name="language">
+        <item>Tiếng Việt</item>
+        <item>English</item>
+    </string-array>
+    <string name="themTruyen">Thêm vào kệ sách</string>
+    <string name="trangChu">Trang chủ</string>
+    <string name="timKiem">Tìm kiếm</string>
+    <string name="keSach">Kệ sách</string>
+    <string name="caiDat">Cài đặt</string>
+    <string name="theLoai">Thể loại</string>
+    <string name="danhSachChuong">DANH SÁCH CHƯƠNG</string>
+    <string name="xoaKhoiKe">Xóa khỏi kệ sách</string>
+    <string name="xemGioiThieuTruyen">Xem giới thiệu truyện</string>
+    <string name="xoaKhoiLichSu">Xóa khỏi lịch sử</string>
+    <string name="moiCapNhat">Mới cập nhật</string>
+    <string name="truyenFull">Truyện đã hoàn thành</string>
+    <string name="truyenHot">Truyện hot</string>
+    <string name="lichSu">Lịch sử</string>
+    <string name="timTruyen">Tìm Kiếm</string>
+    <string name="nhapTenTruyenMuonTim">Nhập tên truyện muốn tìm</string>
+    <string name="cheDoBanDem">Chế độ ban đêm</string>
+    <string name="ngonNgu">Ngôn ngữ</string>
+    <string name="chonFontChu">Chọn font chữ</string>
+    <string name="tiengAnh">Tiếng Anh</string>
+    <string name="phienBan">Thông tin phiên bản</string>
+    <string name="chiTietPhienBan">Phiên bản 0.0.1</string>
 </resources>

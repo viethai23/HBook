@@ -1,15 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cài đặt"
-        android:padding="10dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary_color"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <TextView
+            android:id="@+id/setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caiDat"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"
+            android:textColor="?attr/fragmentTitle"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/switch_theme_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cheDoBanDem"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switch_theme_switch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:textColor="?attr/fragmentTitle" />
+        </LinearLayout>
+
+        <!-- Phân cách giữa các container -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            android:layout_marginVertical="16dp" />
+
+        <!-- Container 2: Chuyển đổi ngôn ngữ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/switch_language_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tiengAnh"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switch_language_switch"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+        </LinearLayout>
+
+        <!-- Phân cách giữa các container -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            android:layout_marginVertical="16dp" />
+
+        <!-- Container 3: Chọn font chữ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/select_font_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/chonFontChu"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/select_font_spinner"
+                android:key="app_font_family"
+                android:title="Font Family"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:entries="@array/font_names"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            android:layout_marginVertical="16dp" />
+
+        <!-- Thêm ImageView để chứa hình ảnh -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/klee"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor"
+            android:layout_marginVertical="16dp" />
+        <Button
+            android:id="@+id/version_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phienBan"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@color/primaryColor" />
+    </LinearLayout>
 </RelativeLayout>

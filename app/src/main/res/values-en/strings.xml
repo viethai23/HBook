@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="themTruyen">Add to bookshelf</string>
+    <string name="trangChu">Home</string>
+    <string name="timKiem">Discovery</string>
+    <string name="keSach">Bookshelf</string>
+    <string name="caiDat">Setting</string>
+    <string name="theLoai">Genre</string>
+    <string name="danhSachChuong">CHAPTER LIST</string>
+    <string name="xoaKhoiKe">Remove from shelf</string>
+    <string name="xemGioiThieuTruyen">Book details</string>
+    <string name="xoaKhoiLichSu">Remove from history</string>
+    <string name="moiCapNhat">Lastest Release</string>
+    <string name="truyenFull">Completed Novels</string>
+    <string name="truyenHot">Hot Novels</string>
+    <string name="lichSu">History</string>
+    <string name="timTruyen">Search</string>
+    <string name="nhapTenTruyenMuonTim">Input search keyword</string>
+    <string name="cheDoBanDem">Night mode</string>
+    <string name="ngonNgu">Language</string>
+    <string name="chonFontChu">Font</string>
+    <string name="tiengAnh">English</string>
+    <string name="phienBan">App version</string>
+    <string name="chiTietPhienBan">Version 0.0.1</string>
+</resources>

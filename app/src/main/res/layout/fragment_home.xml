@@ -8,11 +8,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Trang chủ"
+        android:text="@string/trangChu"
         android:padding="10dp"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/primary_color"/>
+        android:textColor="?attr/fragmentTitle"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
@@ -20,11 +20,11 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_below="@id/toolbar"
         android:layout_marginTop="0dp"
-        android:backgroundTint="@color/white"
-        app:tabIndicatorColor="#03A9F4"
+        android:backgroundTint="?attr/colorOnPrimary"
+        app:tabIndicatorColor="?attr/fragmentTitle"
         app:tabIndicatorHeight="3.5dp"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="#03A9F4"
+        app:tabSelectedTextColor="?attr/fragmentTitle"
         app:tabTextColor="@color/black">
     </com.google.android.material.tabs.TabLayout>
 

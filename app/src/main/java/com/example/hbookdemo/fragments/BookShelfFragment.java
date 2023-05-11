@@ -35,7 +35,7 @@ public class BookShelfFragment extends Fragment {
         mTabLayout = view.findViewById(R.id.tablayout_bs);
         mViewPager = view.findViewById(R.id.viewpagerhome_bs);
 
-        ViewPagerBookShelfAdapter viewPagerAdapter = new ViewPagerBookShelfAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPagerBookShelfAdapter viewPagerAdapter = new ViewPagerBookShelfAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,getActivity());
         mViewPager.setAdapter(viewPagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
