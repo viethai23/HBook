@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor"
-            android:layout_marginVertical="16dp" />
+            android:layout_marginVertical="20dp" />
 
         <!-- Container 2: Chuyển đổi ngôn ngữ -->
         <LinearLayout
@@ -68,40 +68,40 @@
         </LinearLayout>
 
         <!-- Phân cách giữa các container -->
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/dividerColor"-->
+<!--            android:layout_marginVertical="16dp" />-->
+
+<!--        &lt;!&ndash; Container 3: Chọn font chữ &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/select_font_title"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/chonFontChu"-->
+<!--                android:textSize="18sp" />-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/select_font_spinner"-->
+<!--                android:key="app_font_family"-->
+<!--                android:title="Font Family"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:entries="@array/font_names"/>-->
+<!--        </LinearLayout>-->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor"
-            android:layout_marginVertical="16dp" />
-
-        <!-- Container 3: Chọn font chữ -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/select_font_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/chonFontChu"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/select_font_spinner"
-                android:key="app_font_family"
-                android:title="Font Family"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:entries="@array/font_names"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dividerColor"
-            android:layout_marginVertical="16dp" />
+            android:layout_marginVertical="20dp" />
 
         <!-- Thêm ImageView để chứa hình ảnh -->
         <ImageView
@@ -109,12 +109,13 @@
             android:layout_height="wrap_content"
             android:src="@drawable/klee"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:layout_marginVertical="20dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor"
-            android:layout_marginVertical="16dp" />
+            android:layout_marginVertical="20dp" />
         <Button
             android:id="@+id/version_info"
             android:layout_width="match_parent"

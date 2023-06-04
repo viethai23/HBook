@@ -68,32 +68,34 @@ public class SettingFragment extends Fragment {
         }
 
 
-        fontSpinner = view.findViewById(R.id.select_font_spinner);
-        fontIndexPref = getActivity().getSharedPreferences("FONT INDEX", Context.MODE_PRIVATE);
-        fontIndex = fontIndexPref.getInt("font index", 1);
-        fontManager = new FontManager(getActivity());
-        fontSpinner.setSelection(fontIndex);
-
-        fontSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!isFirstLoad) {
-                    String selectedFont = parent.getItemAtPosition(position).toString();
-                    fontManager.changeAppFont(selectedFont);
-                    fontIndexPref.edit().putInt("font index", position).apply();
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    getActivity().finish();
-                }
-                isFirstLoad = false;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
-        });
+//        fontSpinner = view.findViewById(R.id.select_font_spinner);
+//        fontIndexPref = getActivity().getSharedPreferences("FONT INDEX", Context.MODE_PRIVATE);
+//        fontIndex = fontIndexPref.getInt("font index", 1);
+//        fontManager = new FontManager(getActivity());
+//        fontSpinner.setSelection(fontIndex);
+//
+//        fontSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (!isFirstLoad) {
+//                    String selectedFont = parent.getItemAtPosition(position).toString();
+//                    fontManager.changeAppFont(selectedFont);
+//                    fontIndexPref.edit().putInt("font index", position).apply();
+//                    // Finish all current activities in the app
+//                    getActivity().finishAffinity();
+//
+//                    // Start the main activity of the app
+//                    //Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    //startActivity(intent);
+//                }
+//                isFirstLoad = false;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Do nothing
+//            }
+//        });
         themeSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +112,9 @@ public class SettingFragment extends Fragment {
         });
 
 
+        if(languageManager.getLang()=="eng"){
+            languageSwitch.setChecked(true);
+        }
         languageSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
