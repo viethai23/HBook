@@ -36,6 +36,9 @@ public class TruyenLishSuAdapter extends RecyclerView.Adapter<TruyenLishSuAdapte
     @Override
     public TruyenLichSuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_truyenlichsu, parent, false);
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+        layoutParams.setMargins(4, 6, 4, 6);
+        itemView.setLayoutParams(layoutParams);
         return new TruyenLichSuViewHolder(itemView);
     }
 
@@ -67,7 +70,7 @@ public class TruyenLishSuAdapter extends RecyclerView.Adapter<TruyenLishSuAdapte
         public void bind(TruyenLichSu truyenlichsu, final OnItemClickListener listener) {
             titleTextView.setText(truyenlichsu.getTruyen().getTenTruyen());
             authorTextView.setText("Tác giả: " + truyenlichsu.getTruyen().getTacGia());
-            chapterCurrentTextView.setText("Chương hiện tại: " + truyenlichsu.getListChuong().get(truyenlichsu.getViTriChuong()).getTenChuong());
+            chapterCurrentTextView.setText("Chương hiện tại: " + truyenlichsu.getChuong().getTenChuong());
             Glide.with(itemView.getContext())
                     .load(truyenlichsu.getTruyen().getImgUrl())
                     .into(imageView);

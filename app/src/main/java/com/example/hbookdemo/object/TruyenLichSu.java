@@ -6,20 +6,18 @@ import java.util.ArrayList;
 
 public class TruyenLichSu implements Serializable{
     private Truyen truyen;
-    private ArrayList<Chuong> listChuong;
+    private Chuong chuong;
     private GioiThieu gioithieu;
-    private int viTriChuong;
     private String thoiGianUpdate;
 
     public TruyenLichSu() {
 
     }
 
-    public TruyenLichSu(Truyen truyen, ArrayList<Chuong> listChuong, GioiThieu gioithieu, int viTriChuong, String thoiGianUpdate) {
+    public TruyenLichSu(Truyen truyen, Chuong chuong, GioiThieu gioithieu, String thoiGianUpdate) {
         this.truyen = truyen;
-        this.listChuong = listChuong;
+        this.chuong = chuong;
         this.gioithieu = gioithieu;
-        this.viTriChuong = viTriChuong;
         this.thoiGianUpdate = thoiGianUpdate;
     }
 
@@ -31,14 +29,6 @@ public class TruyenLichSu implements Serializable{
         this.truyen = truyen;
     }
 
-    public ArrayList<Chuong> getListChuong() {
-        return listChuong;
-    }
-
-    public void setListChuong(ArrayList<Chuong> listChuong) {
-        this.listChuong = listChuong;
-    }
-
     public GioiThieu getGioithieu() {
         return gioithieu;
     }
@@ -47,12 +37,12 @@ public class TruyenLichSu implements Serializable{
         this.gioithieu = gioithieu;
     }
 
-    public int getViTriChuong() {
-        return viTriChuong;
+    public Chuong getChuong() {
+        return chuong;
     }
 
-    public void setViTriChuong(int viTriChuong) {
-        this.viTriChuong = viTriChuong;
+    public void setChuong(Chuong chuong) {
+        this.chuong = chuong;
     }
 
     public String getThoiGianUpdate() {

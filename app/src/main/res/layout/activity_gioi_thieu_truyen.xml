@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activities.GioiThieuTruyenActivity"
     android:fillViewport="true">
 
@@ -10,24 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="4dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:background="@drawable/custom_truyen"
             android:orientation="vertical"
-            android:background="@drawable/custom_truyen">
+            android:padding="8dp"
+            android:layout_margin="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_back"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp">
 
                 <ImageView
                     android:id="@+id/anhTruyen"
@@ -36,18 +33,19 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="8dp"
                     android:padding="4dp"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    />
             </RelativeLayout>
 
             <TextView
+                android:layout_margin="4dp"
                 android:id="@+id/tenTruyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:maxLines="2"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -56,26 +54,29 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_truyen"
             android:padding="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_margin="4dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tacGia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/colorOnSecondary"
+                android:layout_margin="4dp"/>
 
             <TextView
                 android:id="@+id/theLoai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/colorOnSecondary"
+                android:layout_margin="4dp"/>
 
             <TextView
                 android:id="@+id/trangThai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="?attr/colorOnSecondary"
+                android:layout_margin="4dp"/>
 
         </LinearLayout>
 
@@ -84,44 +85,100 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_truyen"
             android:padding="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_margin="4dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/moTa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSecondary"
+                android:ellipsize="end"
                 android:maxLines="5"
-                android:ellipsize="end"/>
+                android:textColor="?attr/colorOnSecondary" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/doc_truyen"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primary_color"
+                android:text="Đọc truyện"
+                android:layout_margin="4dp"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/them_ke_sach"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/primary_color"
+                android:text="@string/themTruyen"
+                android:layout_margin="4dp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="@drawable/custom_truyen">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chương mới nhất"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/xem_danh_sach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xem danh sách chương"
+                    android:textColor="@color/primary_color"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_chuongtruyen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"/>
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/them_ke_sach"
+                android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/themTruyen"
-                android:textColor="?attr/colorButtonNormal"
-                android:layout_centerHorizontal="true"
-                android:backgroundTint="?attr/colorOnSecondary"/>
-
+                android:layout_margin="4dp"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@color/primary_color"
+                android:text="Quay lại"
+                android:textColor="@color/black" />
         </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_chuongtruyen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:maxHeight="200dp"/>
-
 
 
 

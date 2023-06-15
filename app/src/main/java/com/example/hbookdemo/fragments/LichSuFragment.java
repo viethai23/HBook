@@ -125,11 +125,9 @@ public class LichSuFragment extends Fragment {
                 @Override
                 public void onItemClick(TruyenLichSu truyenLichSu) {
                     Bundle b = new Bundle();
-                    mChuongList = truyenLichSu.getListChuong();
                     b.putSerializable("from", 2);
-                    b.putSerializable("danh sach chuong", 1);
-                    b.putSerializable("vi tri", truyenLichSu.getViTriChuong());
-                    b.putSerializable("truyen lich su", truyenLichSu);
+                    b.putSerializable("chuong", truyenLichSu.getChuong());
+                    b.putSerializable("truyenLS", truyenLichSu);
                     Intent intent = new Intent(getActivity(), NoiDungTruyenActivity.class);
                     intent.putExtra("data chuong",b);
                     startActivity(intent);
@@ -189,7 +187,6 @@ public class LichSuFragment extends Fragment {
                 luachon = true;
                 Bundle b = new Bundle();
                 b.putSerializable("truyen", truyenLichSu.getTruyen());
-                b.putSerializable("danh sach chuong", truyenLichSu.getListChuong());
                 Intent intent = new Intent(getActivity(), GioiThieuTruyenActivity.class);
                 intent.putExtra("data truyen",b);
                 startActivity(intent);

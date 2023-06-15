@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ChuongAdapter;
+import com.example.hbookdemo.adapter.TruyenAdapter;
 import com.example.hbookdemo.fragments.LichSuFragment;
 import com.example.hbookdemo.manager.FontManager;
 import com.example.hbookdemo.object.Chuong;
@@ -66,8 +67,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class GioiThieuTruyenActivity extends AppCompatActivity {
 
     private String fileNameKS = "data_kesach.json";
-    private String fileName = "data1.json";
-    private ImageView back;
+    private Button back;
     private ImageView anhTruyenIV;
     private TextView tenTruyenTV;
     private TextView tacGiaTV;
@@ -75,15 +75,16 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
     private TextView trangThaiTV;
     private TextView moTaTV;
     private Button themBT;
+    private Button docTruyen;
+    private TextView xemDS;
     private boolean checkKS = false;
-    private boolean checkLS = false;
     private RecyclerView chuongRecyclerView;
     public static ArrayList<Chuong> mchuongList;
     private String url;
-    private Disposable disposable1, disposable2;
+    private Disposable disposable1, disposable2, disposable3;
     private TruyenLichSu truyenLichSu;
     private Truyen truyen;
-    private int page = 0, lastP = 1;
+    private int lastP = 1;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -96,47 +97,9 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
 
         mapping();
         init();
-
         loadGioiThieu();
-
-        if(checkLS == false) loadChuong();
-        else setChuongAdpater();
-
+        loadChuong();
         setOnClick();
-    }
-
-    private void setChuongAdpater() {
-        chuongRecyclerView.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(int position) {
-                truyenLichSu.setViTriChuong(position);
-                LocalDateTime currentDateTime = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    currentDateTime = LocalDateTime.now();
-                }
-                truyenLichSu.setThoiGianUpdate(String.valueOf(currentDateTime));
-                Log.d("TTT", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
-//                saveIn();
-                Bundle b = new Bundle();
-                b.putSerializable("from", 1);
-                b.putSerializable("danh sach chuong", 1);
-                b.putSerializable("vi tri", position);
-                b.putSerializable("truyen lich su", truyenLichSu);
-                Intent intent = new Intent(GioiThieuTruyenActivity.this,NoiDungTruyenActivity.class);
-                intent.putExtra("data chuong",b);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Fade fade = new Fade();
-                    fade.setDuration(500);
-                    getWindow().setEnterTransition(fade);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(GioiThieuTruyenActivity.this);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    startActivity(intent);
-                }
-            }
-
-        }));
     }
 
     private void setOnClick() {
@@ -165,6 +128,24 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
                 if(!checkKS) Toast.makeText(GioiThieuTruyenActivity.this, "Thêm truyện vào kệ sách thành công!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        xemDS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle b = new Bundle();
+                b.putSerializable("truyenLS", truyenLichSu);
+                Intent intent = new Intent(GioiThieuTruyenActivity.this, DanhSachChuongActivity.class);
+                intent.putExtra("data truyen",b);
+                startActivity(intent);
+            }
+        });
+
+        docTruyen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadChuongDau();
+            }
+        });
     }
 
     // Ánh xạ view
@@ -178,16 +159,14 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
         moTaTV = findViewById(R.id.moTa);
         chuongRecyclerView = findViewById(R.id.rcv_chuongtruyen);
         themBT = findViewById(R.id.them_ke_sach);
+        docTruyen = findViewById(R.id.doc_truyen);
+        xemDS = findViewById(R.id.xem_danh_sach);
     }
 
     // Khởi tạo
     private void init() {
         mchuongList = new ArrayList<>();
         Bundle c = getIntent().getBundleExtra("data truyen");
-        if(c.getSerializable("danh sach chuong") != null) {
-            mchuongList = LichSuFragment.mChuongList;
-            checkLS = true;
-        }
         truyen = (Truyen) c.getSerializable("truyen");
         url = (String) truyen.getTruyenUrl();
         chuongRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -199,7 +178,7 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
     private void loadGioiThieu() {
         disposable1 = Observable.fromCallable(() -> {
                     Document maindoc = Jsoup.connect(url).get();
-                    String tenTruyen = maindoc.select("h3.title").text();
+                    String tenTruyen = truyen.getTenTruyen();
                     String anhTruyen = maindoc.select("div.book img").attr("src");
                     String tacGia = maindoc.select("div.info div:nth-child(1) a").text();
                     String theLoai = maindoc.select("div.info div:nth-child(3) a").text();
@@ -237,43 +216,39 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
 
     // Load danh sách chương
     private void loadChuong() {
-        disposable2 = Observable.range(0,10).flatMap(ii -> Observable.fromCallable(() -> {
-                            Document maindoc = Jsoup.connect(url).get();
-                            String last = maindoc.select("li.last").select("a").attr("data-page");
-                            lastP = Integer.parseInt(last)+1;
-                            ArrayList<Chuong> list = new ArrayList<>();
-                            while(page<lastP){
-                                page+=1;
-                                String currentPage= url + "?page="+Integer.toString(page)+"&per-page=50";
-                                Document doc = Jsoup.connect(currentPage).get();
-                                Elements content = doc.select("ul.list-chapter").select("a");
-                                int listChapsize = content.size();
-                                for(int i=0;i<listChapsize;i++) {
-                                    String tenChap = content.select("span.chapter-text")
-                                            .eq(i)
-                                            .text();
-                                    String chapUrl = "https://novelfull.com" + content
-                                            .eq(i)
-                                            .attr("href");
-                                    list.add(new Chuong(tenChap, chapUrl));
-//                                    Log.d("TTT", "ten chap: " + tenChap);
-                                }
-                            }
-                            return list;
-                        })
-                        .subscribeOn(Schedulers.io()))
+        disposable2 = Observable.fromCallable(() -> {
+                    Document maindoc = Jsoup.connect(url).get();
+                    String last = maindoc.select("li.last").select("a").attr("data-page");
+                    lastP = Integer.parseInt(last)+1;
+                    ArrayList<Chuong> list = new ArrayList<>();
+                    Document doc = Jsoup.connect(url).get();
+                    Elements content = doc.select("ul.l-chapters").select("a");
+                    int listChapsize = content.size();
+                    for(int i=0;i<listChapsize;i++) {
+                        String tenChap = content.select("span.chapter-text")
+                                .eq(i)
+                                .text();
+                        String chapUrl = "https://novelfull.com" + content
+                                .eq(i)
+                                .attr("href");
+                        list.add(new Chuong(tenChap, chapUrl));
+                    }
+
+                    return list;
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {
                     mchuongList.addAll(data);
-                    Collections.sort(mchuongList);
                     chuongRecyclerView.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
 
                         @Override
-                        public void onItemClick(int position) {
+                        public void onItemClick(Chuong chuong) {
                             Bundle b = new Bundle();
                             b.putSerializable("from", 1);
-                            b.putSerializable("vi tri", position);
-                            b.putSerializable("truyen lich su", truyenLichSu);
+                            b.putSerializable("chuong", chuong);
+                            b.putSerializable("truyenLS", truyenLichSu);
+                            b.putSerializable("vi tri page", lastP);
                             Intent intent = new Intent(GioiThieuTruyenActivity.this,NoiDungTruyenActivity.class);
                             intent.putExtra("data chuong",b);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -288,6 +263,43 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
                         }
 
                     }));
+                }, error -> {
+                    Log.d("TTT", "Loi lay truyen");
+                });
+    }
+
+    private void loadChuongDau() {
+        disposable3 = Observable.fromCallable(() -> {
+                    Document maindoc = Jsoup.connect(url).get();
+                    String last = maindoc.select("li.last").select("a").attr("data-page");
+                    lastP = Integer.parseInt(last)+1;
+                    Document doc = Jsoup.connect(url).get();
+                    Elements content = doc.select("ul.list-chapter").select("a");
+                    String tenChap = content.select("span.chapter-text")
+                            .eq(0)
+                            .text();
+                    String chapUrl = "https://novelfull.com" + content.eq(0).attr("href");
+                    return new Chuong(tenChap, chapUrl);
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    Bundle b = new Bundle();
+                    b.putSerializable("from", 1);
+                    b.putSerializable("chuong", data);
+                    b.putSerializable("truyenLS", truyenLichSu);
+                    b.putSerializable("vi tri page", 1);
+                    Intent intent = new Intent(GioiThieuTruyenActivity.this,NoiDungTruyenActivity.class);
+                    intent.putExtra("data chuong",b);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Fade fade = new Fade();
+                        fade.setDuration(500);
+                        getWindow().setEnterTransition(fade);
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(GioiThieuTruyenActivity.this);
+                        startActivity(intent, options.toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
                 }, error -> {
                     Log.d("TTT", "Loi lay truyen");
                 });
@@ -334,6 +346,9 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
         }
         if(disposable2!= null) {
             disposable2.dispose();
+        }
+        if(disposable3!= null) {
+            disposable3.dispose();
         }
     }
 

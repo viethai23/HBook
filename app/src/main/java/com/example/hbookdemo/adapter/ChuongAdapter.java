@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ChuongAdapter extends RecyclerView.Adapter<ChuongAdapter.ChuongViewHolder> {
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(Chuong chuong);
     }
 
     private List<Chuong> mListChuong;
@@ -30,12 +30,15 @@ public class ChuongAdapter extends RecyclerView.Adapter<ChuongAdapter.ChuongView
     @Override
     public ChuongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chuong, parent, false);
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+        layoutParams.setMargins(4, 6, 4, 6);
+        itemView.setLayoutParams(layoutParams);
         return new ChuongViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChuongViewHolder holder, int position) {
-        holder.bind(mListChuong.get(position), position, listener);
+        holder.bind(mListChuong.get(position), listener);
     }
 
     @Override
@@ -52,11 +55,11 @@ public class ChuongAdapter extends RecyclerView.Adapter<ChuongAdapter.ChuongView
             tenChuongTV = itemView.findViewById(R.id.tenChuongTV);
         }
 
-        public void bind(Chuong chuong, int position, final OnItemClickListener listener) {
+        public void bind(Chuong chuong, final OnItemClickListener listener) {
             tenChuongTV.setText(chuong.getTenChuong());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    listener.onItemClick(position);
+                    listener.onItemClick(chuong);
                 }
             });
         }

@@ -34,6 +34,9 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
     @Override
     public TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_truyen, parent, false);
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+        layoutParams.setMargins(4, 6, 4, 6);
+        itemView.setLayoutParams(layoutParams);
         return new TruyenViewHolder(itemView);
     }
 

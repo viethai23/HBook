@@ -3,6 +3,7 @@ package com.example.hbookdemo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -67,17 +70,20 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private ImageView menu;
     private ImageView next;
     private ImageView prev;
-    private int viTri;
+    private ArrayList<Chuong> mchuongList;
     private Chuong chuong;
-    private String url;
+    private String url, urlT;
     private ScrollView scrollView;
     private RelativeLayout RLController;
     private GestureDetectorCompat gestureDetector;
     private AlertDialog alertDialog;
     private TruyenLichSu truyenLichSu;
-    private ArrayList mchuongList;
-    private Disposable disposable;
+    private Disposable disposable, disposable1, disposable2, disposable3, disposable4;
+    private RecyclerView rcvViewChuongDL;
+    private NestedScrollView nestedScrollView;
+    private ProgressBar loadingU, loadingD;
     private int from;
+    private int page=1, pageD=1, lastP=1;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -90,15 +96,14 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getBundleExtra("data chuong");
         from = (int) b.getSerializable("from");
-        viTri = (int) b.getSerializable("vi tri");
-        truyenLichSu = (TruyenLichSu) b.getSerializable("truyen lich su");
-        if(b.getSerializable("danh sach chuong") != null)
-            mchuongList = LichSuFragment.mChuongList;
-        else
-            mchuongList = GioiThieuTruyenActivity.mchuongList;
-        chuong = (Chuong) mchuongList.get(viTri);
-
+        from = (int) b.getSerializable("from");
+        chuong = (Chuong) b.getSerializable("chuong");
+        truyenLichSu = (TruyenLichSu) b.getSerializable("truyenLS");
+        if(b.getSerializable("vi tri page") == null) page = 1;
+        else page = (int) b.getSerializable("vi tri page");
+        pageD = page;
         url = chuong.getUrlChuong();
+        urlT = truyenLichSu.getTruyen().getTruyenUrl();
 
         tenTruyenTV = findViewById(R.id.tenTruyen);
         tenChuongTV = findViewById(R.id.tenChuong);
@@ -110,6 +115,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         next = findViewById(R.id.next);
         prev = findViewById(R.id.prev);
 
+        mchuongList = new ArrayList<>();
         gestureDetector = new GestureDetectorCompat(this, new MyGestureListener());
         createDialog();
 
@@ -150,6 +156,9 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                 Intent intent = null;
                 if(from == 1) {
                     intent = new Intent(NoiDungTruyenActivity.this, GioiThieuTruyenActivity.class);
+                }
+                else if(from == 3) {
+                    intent = new Intent(NoiDungTruyenActivity.this, DanhSachChuongActivity.class);
                 }
                 else {
                     intent = new Intent(NoiDungTruyenActivity.this, MainActivity.class);
@@ -207,34 +216,41 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
 
         View customLayout = getLayoutInflater().inflate(R.layout.custom_chapter_dialog_layout, null);
         builder.setView(customLayout);
+        nestedScrollView = customLayout.findViewById(R.id.view_dialog);
+        loadingU = customLayout.findViewById(R.id.loading_dialog);
+        loadingD = customLayout.findViewById(R.id.loading_dialog_down);
+        rcvViewChuongDL = customLayout.findViewById(R.id.rcv_chuongtruyen_DL);
 
-        RecyclerView rcvViewChuongDL = customLayout.findViewById(R.id.rcv_chuongtruyen_DL);
+        loadingU.setVisibility(View.INVISIBLE);
+        loadingD.setVisibility(View.INVISIBLE);
 
         rcvViewChuongDL.setLayoutManager(new LinearLayoutManager(customLayout.getContext()));
 
-        rcvViewChuongDL.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
-
+        loadDataChuongUp();
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onItemClick(int position) {
-                Bundle b = new Bundle();
-                b.putSerializable("from", from);
-                b.putSerializable("vi tri", position);
-                b.putSerializable("truyen lich su", truyenLichSu);
-                Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
-//                finish();
-                intent.putExtra("data chuong",b);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Fade fade = new Fade();
-                    fade.setDuration(500);
-                    getWindow().setEnterTransition(fade);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(NoiDungTruyenActivity.this);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    startActivity(intent);
+            public void onScrollChange(@androidx.annotation.NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    if (page < lastP ) {
+                        page++;
+                        loadDataChuongUp();
+                        loadingU.setVisibility(View.VISIBLE);
+                    }else {
+                        loadingU.setVisibility(View.INVISIBLE);
+                    }
+                }
+                else if(scrollY == 0) {
+                    if (pageD > 1) {
+                        pageD--;
+                        loadDataChuongDown();
+                        loadingD.setVisibility(View.VISIBLE);
+                    }else {
+                        loadingD.setVisibility(View.INVISIBLE);
+                    }
                 }
             }
+        });
 
-        }));
 
         alertDialog = builder.create();
         alertDialog.setCancelable(true);
@@ -245,12 +261,11 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = readFromFile(this, fileName);
         TruyenLichSu[] lichSu = gson.fromJson(json, TruyenLichSu[].class);
-        truyenLichSu.setListChuong(mchuongList);
+        truyenLichSu.setChuong(chuong);
         LocalDateTime currentDateTime = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             currentDateTime = LocalDateTime.now();
         }
-        truyenLichSu.setViTriChuong(viTri);
         truyenLichSu.setThoiGianUpdate(String.valueOf(currentDateTime));
         int index = -1;
         if(lichSu != null) {
@@ -267,9 +282,8 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                 writeToFile(this, fileName, updatedJson);
             }
             else {
-                lichSu[index].setViTriChuong(viTri);
+                lichSu[index].setChuong(chuong);
                 lichSu[index].setThoiGianUpdate(String.valueOf(currentDateTime));
-                Log.d("Luu noi dung: ", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Vi tri chuong: " + truyenLichSu.getViTriChuong() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
                 String updatedJson = gson.toJson(lichSu);
                 writeToFile(this, fileName, updatedJson);
             }
@@ -312,6 +326,128 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         return result;
     }
 
+    private void loadDataChuongUp() {
+        disposable3 = Observable.fromCallable(() -> {
+                    String currentPage= urlT + "?page="+Integer.toString(page);
+                    List<Chuong> list = new ArrayList<>();
+                    try {
+                        Document maindoc = Jsoup.connect(urlT).get();
+                        String lastPage = maindoc.select("li.last").select("a").attr("data-page");
+                        lastP = Integer.parseInt(lastPage)+1;
+                        Document doc = Jsoup.connect(currentPage).get();
+                        Elements content = doc.select("ul.list-chapter").select("a");
+                        int listChapsize = content.size();
+                        for(int i=0;i<listChapsize;i++) {
+                            String tenChap = content.select("span.chapter-text")
+                                    .eq(i)
+                                    .text();
+                            String chapUrl = "https://novelfull.com" + content
+                                    .eq(i)
+                                    .attr("href");
+                            list.add(new Chuong(tenChap, chapUrl));
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                    return list;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    mchuongList.addAll(data);
+                    rcvViewChuongDL.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(Chuong chuong) {
+                            Bundle b = new Bundle();
+                            b.putSerializable("from", from);
+                            b.putSerializable("chuong", chuong);
+                            b.putSerializable("truyenLS", truyenLichSu);
+                            b.putSerializable("vi tri page", page);
+                            Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
+                            intent.putExtra("data chuong",b);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Fade fade = new Fade();
+                                fade.setDuration(500);
+                                getWindow().setEnterTransition(fade);
+                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(NoiDungTruyenActivity.this);
+                                startActivity(intent, options.toBundle());
+                            } else {
+                                startActivity(intent);
+                            }
+                        }
+
+                    }));
+                }, error -> {
+                    Log.d("TTT", "Loi lay truyen");
+                });
+
+    }
+
+    private void loadDataChuongDown() {
+        disposable4 = Observable.fromCallable(() -> {
+                    String currentPage= urlT + "?page="+Integer.toString(pageD);
+                    List<Chuong> list = new ArrayList<>();
+                    try {
+                        Document maindoc = Jsoup.connect(urlT).get();
+                        String lastPage = maindoc.select("li.last").select("a").attr("data-page");
+                        lastP = Integer.parseInt(lastPage)+1;
+                        Document doc = Jsoup.connect(currentPage).get();
+                        Elements content = doc.select("ul.list-chapter").select("a");
+                        int listChapsize = content.size();
+                        for(int i=0;i<listChapsize;i++) {
+                            String tenChap = content.select("span.chapter-text")
+                                    .eq(i)
+                                    .text();
+                            String chapUrl = "https://novelfull.com" + content
+                                    .eq(i)
+                                    .attr("href");
+                            list.add(new Chuong(tenChap, chapUrl));
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                    return list;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    mchuongList.addAll(0, data);
+                    rcvViewChuongDL.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(Chuong chuong) {
+                            Bundle b = new Bundle();
+                            b.putSerializable("from", from);
+                            b.putSerializable("chuong", chuong);
+                            b.putSerializable("truyenLS", truyenLichSu);
+                            b.putSerializable("vi tri page", page);
+                            Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
+                            intent.putExtra("data chuong",b);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Fade fade = new Fade();
+                                fade.setDuration(500);
+                                getWindow().setEnterTransition(fade);
+                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(NoiDungTruyenActivity.this);
+                                startActivity(intent, options.toBundle());
+                            } else {
+                                startActivity(intent);
+                            }
+                        }
+
+                    }));
+
+
+                }, error -> {
+                    Log.d("TTT", "Loi lay truyen");
+                });
+
+    }
+
     private void loadData() {
         disposable = Observable.fromCallable(() -> {
                             Document maindoc = Jsoup.connect(url).get();
@@ -333,16 +469,27 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                     tenChuongTV.setText(data.getTenChuong());
                     noiDungTV.setText(data.getNoiDung());
                 }, error -> {
-                    Log.d("TTT", "Loi lay truyen");
+                    Log.d("TTT", "Loi lay noi dung truyen");
                 });
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        saveIn();
         if(disposable != null) {
             disposable.dispose();
+        }
+        if(disposable1 != null) {
+            disposable1.dispose();
+        }
+        if(disposable2 != null) {
+            disposable2.dispose();
+        }
+        if(disposable3 != null) {
+            disposable3.dispose();
+        }
+        if(disposable4 != null) {
+            disposable4.dispose();
         }
         if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
@@ -350,28 +497,67 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     }
 
     private void nextChapter() {
-        if(viTri==mchuongList.size()-1){
-            Toast.makeText(NoiDungTruyenActivity.this, "Đây là chương cuối cùng!", Toast.LENGTH_SHORT).show();
-        }else{
-            viTri += 1;
-            Next();
-        }
+        disposable1 = Observable.fromCallable(() -> {
+                    Document maindoc = Jsoup.connect(url).get();
+                    if(maindoc.select("#next_chap").hasAttr("disabled")) {
+                        return null;
+                    }
+                    else {
+                        String tenChuong = maindoc.select("#next_chap").attr("title");
+                        String urlChuong = "https://novelfull.com" + maindoc.select("#next_chap").attr("href");
+                        return new Chuong(tenChuong, urlChuong);
+                    }
+
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    if(data == null) {
+                        Toast.makeText(NoiDungTruyenActivity.this, "Đây là chương cuối cùng!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        chuong = data;
+                        Next();
+                    }
+                }, error -> {
+                    Log.d("TTT", "Loi lay next chuong");
+                });
     }
 
     private void prevChapter() {
-        if(viTri==0){
-            Toast.makeText(NoiDungTruyenActivity.this, "Đây là chương đầu tiên!", Toast.LENGTH_SHORT).show();
-        }else{
-            viTri -= 1;
-            Prev();
-        }
+        disposable2 = Observable.fromCallable(() -> {
+                    Document maindoc = Jsoup.connect(url).get();
+                    if(maindoc.select("#prev_chap").hasAttr("disabled")) {
+                        return null;
+                    }
+                    else {
+                        String tenChuong = maindoc.select("#prev_chap").attr("title");
+                        String urlChuong = "https://novelfull.com" + maindoc.select("#prev_chap").attr("href");
+                        return new Chuong(tenChuong, urlChuong);
+                    }
+
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    if(data == null) {
+                        Toast.makeText(NoiDungTruyenActivity.this, "Đây là chương đầu!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        chuong = data;
+                        Prev();
+                    }
+                }, error -> {
+                    Log.d("TTT", "Loi lay prev chuong");
+                });
     }
 
     private void Next() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("vi tri",viTri);
-        b.putSerializable("truyen lich su", truyenLichSu);
+        b.putSerializable("chuong",chuong);
+        b.putSerializable("vi tri page", page);
+        b.putSerializable("truyenLS", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
 //        finish();
         intent.putExtra("data chuong",b);
@@ -390,8 +576,9 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private void Prev() {
         Bundle b = new Bundle();
         b.putSerializable("from", from);
-        b.putSerializable("vi tri",viTri);
-        b.putSerializable("truyen lich su", truyenLichSu);
+        b.putSerializable("chuong",chuong);
+        b.putSerializable("vi tri page", page);
+        b.putSerializable("truyenLS", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
 //        finish();
         intent.putExtra("data chuong",b);
