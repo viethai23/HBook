@@ -92,7 +92,6 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_gioi_thieu_truyen);
 
         mapping();
@@ -118,7 +117,7 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
                 }
                 truyenLichSu.setThoiGianUpdate(String.valueOf(currentDateTime));
                 Log.d("TTT", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
-                saveIn();
+//                saveIn();
                 Bundle b = new Bundle();
                 b.putSerializable("from", 1);
                 b.putSerializable("danh sach chuong", 1);
@@ -267,19 +266,10 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
                 .subscribe(data -> {
                     mchuongList.addAll(data);
                     Collections.sort(mchuongList);
-                    truyenLichSu.setListChuong(mchuongList);
                     chuongRecyclerView.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
 
                         @Override
                         public void onItemClick(int position) {
-                            truyenLichSu.setViTriChuong(position);
-                            LocalDateTime currentDateTime = null;
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                currentDateTime = LocalDateTime.now();
-                            }
-                            truyenLichSu.setThoiGianUpdate(String.valueOf(currentDateTime));
-                            Log.d("TTT", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
-                            saveIn();
                             Bundle b = new Bundle();
                             b.putSerializable("from", 1);
                             b.putSerializable("vi tri", position);
@@ -332,40 +322,6 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
             new_truyenDS[0] = truyen;
             String updatedJson = gson.toJson(new_truyenDS);
             writeToFile(this, fileNameKS, updatedJson);
-        }
-
-    }
-
-    // Lưu truyện vào storage
-    private void saveIn() {
-        Gson gson = new Gson();
-        String json = readFromFile(this, fileName);
-        TruyenLichSu[] lichSu = gson.fromJson(json, TruyenLichSu[].class);
-        if(lichSu != null) {
-            int index = -1;
-            for (int i = 0; i < lichSu.length; i++) {
-                if (lichSu[i].getTruyen().equals(truyenLichSu.getTruyen())) {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1) {
-                TruyenLichSu[] new_lichSu = Arrays.copyOf(lichSu, lichSu.length + 1);
-                new_lichSu[new_lichSu.length - 1] = truyenLichSu;
-                String updatedJson = gson.toJson(new_lichSu);
-                writeToFile(this, fileName, updatedJson);
-            }
-            else {
-                lichSu[index].setViTriChuong(truyenLichSu.getViTriChuong());
-                String updatedJson = gson.toJson(lichSu);
-                writeToFile(this, fileName, updatedJson);
-            }
-        }
-        else {
-            TruyenLichSu[] new_lichSu = new TruyenLichSu[1];
-            new_lichSu[0] = truyenLichSu;
-            String updatedJson = gson.toJson(new_lichSu);
-            writeToFile(this, fileName, updatedJson);
         }
 
     }

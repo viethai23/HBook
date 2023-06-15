@@ -154,6 +154,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                 else {
                     intent = new Intent(NoiDungTruyenActivity.this, MainActivity.class);
                 }
+                saveIn();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Fade fade = new Fade();
@@ -217,11 +218,10 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 Bundle b = new Bundle();
                 b.putSerializable("from", from);
-                b.putSerializable("danh sach chuong", 1);
                 b.putSerializable("vi tri", position);
                 b.putSerializable("truyen lich su", truyenLichSu);
                 Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
-                finish();
+//                finish();
                 intent.putExtra("data chuong",b);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Fade fade = new Fade();
@@ -245,31 +245,42 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = readFromFile(this, fileName);
         TruyenLichSu[] lichSu = gson.fromJson(json, TruyenLichSu[].class);
-
+        truyenLichSu.setListChuong(mchuongList);
+        LocalDateTime currentDateTime = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            currentDateTime = LocalDateTime.now();
+        }
+        truyenLichSu.setViTriChuong(viTri);
+        truyenLichSu.setThoiGianUpdate(String.valueOf(currentDateTime));
         int index = -1;
-        for (int i = 0; i < lichSu.length; i++) {
-            if (lichSu[i].getTruyen().equals(truyenLichSu.getTruyen())) {
-                index = i;
-                break;
+        if(lichSu != null) {
+            for (int i = 0; i < lichSu.length; i++) {
+                if (lichSu[i].getTruyen().equals(truyenLichSu.getTruyen())) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1) {
+                TruyenLichSu[] new_lichSu = Arrays.copyOf(lichSu, lichSu.length + 1);
+                new_lichSu[new_lichSu.length - 1] = truyenLichSu;
+                String updatedJson = gson.toJson(new_lichSu);
+                writeToFile(this, fileName, updatedJson);
+            }
+            else {
+                lichSu[index].setViTriChuong(viTri);
+                lichSu[index].setThoiGianUpdate(String.valueOf(currentDateTime));
+                Log.d("Luu noi dung: ", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Vi tri chuong: " + truyenLichSu.getViTriChuong() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
+                String updatedJson = gson.toJson(lichSu);
+                writeToFile(this, fileName, updatedJson);
             }
         }
-        if (index == -1) {
-            TruyenLichSu[] new_lichSu = Arrays.copyOf(lichSu, lichSu.length + 1);
-            new_lichSu[new_lichSu.length - 1] = truyenLichSu;
+        else {
+            TruyenLichSu[] new_lichSu = new TruyenLichSu[1];
+            new_lichSu[0] = truyenLichSu;
             String updatedJson = gson.toJson(new_lichSu);
             writeToFile(this, fileName, updatedJson);
         }
-        else {
-            LocalDateTime currentDateTime = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                currentDateTime = LocalDateTime.now();
-            }
-            lichSu[index].setViTriChuong(viTri);
-            lichSu[index].setThoiGianUpdate(String.valueOf(currentDateTime));
-            Log.d("Luu noi dung: ", "Ten truyen: " + truyenLichSu.getTruyen().getTenTruyen() + " Vi tri chuong: " + truyenLichSu.getViTriChuong() + " Thoi gian: " + truyenLichSu.getThoiGianUpdate());
-            String updatedJson = gson.toJson(lichSu);
-            writeToFile(this, fileName, updatedJson);
-        }
+
 
     }
 
@@ -326,11 +337,10 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                 });
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        saveIn();
+//        saveIn();
         if(disposable != null) {
             disposable.dispose();
         }
@@ -363,7 +373,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
-        finish();
+//        finish();
         intent.putExtra("data chuong",b);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide(Gravity.START);
@@ -383,7 +393,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         b.putSerializable("vi tri",viTri);
         b.putSerializable("truyen lich su", truyenLichSu);
         Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
-        finish();
+//        finish();
         intent.putExtra("data chuong",b);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide(Gravity.END);
@@ -397,6 +407,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         }
     }
 
+    //Thao tác vuốt
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_THRESHOLD = 100;
