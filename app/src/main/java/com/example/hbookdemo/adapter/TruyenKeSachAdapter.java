@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.hbookdemo.HBook;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.object.Truyen;
 import com.example.hbookdemo.object.TruyenLichSu;
@@ -58,6 +59,7 @@ public class TruyenKeSachAdapter extends RecyclerView.Adapter<TruyenKeSachAdapte
         TextView titleTextView;
         TextView authorTextView;
         TextView chapterCountTextView;
+        String tacgia,chuongmoi;
 
         public TruyenKeSachViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,9 +70,17 @@ public class TruyenKeSachAdapter extends RecyclerView.Adapter<TruyenKeSachAdapte
         }
 
         public void bind(Truyen truyen, final OnItemClickListener listener) {
+            String lang = HBook.languageManager.getLang();
+            if(lang.equals("en")){
+                tacgia = "Author";
+                chuongmoi = "Lastest chapter";
+            }else{
+                tacgia="Tác giả";
+                chuongmoi = "Chương mới nhất";
+            }
             titleTextView.setText(truyen.getTenTruyen());
-            authorTextView.setText("Tác giả: " + truyen.getTacGia());
-            chapterCountTextView.setText("Chương mới nhất: " + truyen.getSoChuong());
+            authorTextView.setText(tacgia + ": " + truyen.getTacGia());
+            chapterCountTextView.setText(chuongmoi + ": " + truyen.getSoChuong());
             Glide.with(itemView.getContext())
                     .load(truyen.getImgUrl())
                     .into(imageView);

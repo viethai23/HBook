@@ -14,4 +14,6 @@
     <color name="title">#009688</color>
     <color name="titleBg">#E8DFDF</color>
     <color name="otherBg">#DCD6D6</color>
+    <color name="dayColor">#f8f6f7</color>
+    <color name="nightColor">#555555</color>
 </resources>

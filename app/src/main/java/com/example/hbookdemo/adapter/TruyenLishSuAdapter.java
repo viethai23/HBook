@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.hbookdemo.HBook;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.object.Truyen;
 import com.example.hbookdemo.object.TruyenLichSu;
@@ -58,6 +59,7 @@ public class TruyenLishSuAdapter extends RecyclerView.Adapter<TruyenLishSuAdapte
         TextView titleTextView;
         TextView authorTextView;
         TextView chapterCurrentTextView;
+        String tacgia,chuongmoi;
 
         public TruyenLichSuViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,9 +70,16 @@ public class TruyenLishSuAdapter extends RecyclerView.Adapter<TruyenLishSuAdapte
         }
 
         public void bind(TruyenLichSu truyenlichsu, final OnItemClickListener listener) {
-            titleTextView.setText(truyenlichsu.getTruyen().getTenTruyen());
-            authorTextView.setText("Tác giả: " + truyenlichsu.getTruyen().getTacGia());
-            chapterCurrentTextView.setText("Chương hiện tại: " + truyenlichsu.getChuong().getTenChuong());
+            String lang = HBook.languageManager.getLang();
+            if(lang.equals("en")){
+                tacgia = "Author";
+                chuongmoi = "Last Read";
+            }else{
+                tacgia="Tác giả";
+                chuongmoi = "Chương hiện tại";
+            }
+            authorTextView.setText(tacgia + ": " + truyenlichsu.getTruyen().getTacGia());
+            chapterCurrentTextView.setText(chuongmoi + ": " + truyenlichsu.getChuong().getTenChuong());
             Glide.with(itemView.getContext())
                     .load(truyenlichsu.getTruyen().getImgUrl())
                     .into(imageView);

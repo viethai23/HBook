@@ -7,6 +7,8 @@
     <attr name="colorTitleBg" format="reference"/>
     <attr name="colorOtherBg" format="reference"/>
     <attr name="fragmentTitle" format="reference"/>
+    <attr name="customTruyen" format="reference"/>
+    <attr name="customChuong" format="reference"/>
     <declare-styleable name="FontTextView">
         <attr name="fontPath" format="string"/>
     </declare-styleable>

@@ -25,7 +25,7 @@
         app:tabIndicatorHeight="3.5dp"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="?attr/fragmentTitle"
-        app:tabTextColor="@color/black">
+        app:tabTextColor="?attr/colorOnSecondary">
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

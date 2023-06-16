@@ -10,7 +10,7 @@ import com.example.hbookdemo.manager.FontManager;
 import com.example.hbookdemo.manager.LanguageManager;
 
 public class HBook extends Application {
-    LanguageManager languageManager;
+    public static LanguageManager languageManager;
     FontManager fontManager;
     String lang,font;
 

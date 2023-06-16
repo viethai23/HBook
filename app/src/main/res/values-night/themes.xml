@@ -17,5 +17,6 @@
         <item name="colorTitleBg">@color/black</item>
         <item name="colorOtherBg">@color/black</item>
         <item name="fragmentTitle">@color/white</item>
+        <item name="customTruyen">@color/nightColor</item>
     </style>
 </resources>

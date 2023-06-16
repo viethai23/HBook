@@ -19,11 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.hbookdemo.HBook;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.adapter.ChuongAdapter;
 import com.example.hbookdemo.adapter.TruyenAdapter;
 import com.example.hbookdemo.fragments.LichSuFragment;
 import com.example.hbookdemo.manager.FontManager;
+import com.example.hbookdemo.manager.LanguageManager;
 import com.example.hbookdemo.object.Chuong;
 import com.example.hbookdemo.object.GioiThieu;
 import com.example.hbookdemo.object.Truyen;
@@ -85,6 +87,7 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
     private TruyenLichSu truyenLichSu;
     private Truyen truyen;
     private int lastP = 1;
+    private String tacgia,theloai,trangthai;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -165,6 +168,16 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
 
     // Khởi tạo
     private void init() {
+        String lang = HBook.languageManager.getLang();
+        if(lang.equals("en")){
+            tacgia = "Author";
+            theloai = "Genre";
+            trangthai = "Status";
+        }else {
+            tacgia = "Tác giả";
+            theloai = "Thể loại";
+            trangthai = "Trạng thái";
+        }
         mchuongList = new ArrayList<>();
         Bundle c = getIntent().getBundleExtra("data truyen");
         truyen = (Truyen) c.getSerializable("truyen");
@@ -193,9 +206,9 @@ public class GioiThieuTruyenActivity extends AppCompatActivity {
                     truyenLichSu.setGioithieu(data);
                     tenTruyenTV.setText(data.getTenTruyen());
                     Glide.with(this).load("https://novelfull.com/" + data.getAnhTruyen()).into(anhTruyenIV);
-                    tacGiaTV.setText("Tác giả: " + data.getTacGia());
-                    theLoaiTV.setText("Thể loại: " + data.getTheLoai());
-                    trangThaiTV.setText("Trạng thái: " + data.getTrangThai());
+                    tacGiaTV.setText(tacgia +": " + data.getTacGia());
+                    theLoaiTV.setText(theloai + ": " + data.getTheLoai());
+                    trangThaiTV.setText(trangthai + ": " + data.getTrangThai());
                     moTaTV.setText(data.getMoTa());
                     moTaTV.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_truyen"
+            android:backgroundTint="?attr/customTruyen"
             android:orientation="vertical"
             android:padding="8dp"
             android:layout_margin="4dp">
@@ -52,6 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/customTruyen"
             android:background="@drawable/custom_truyen"
             android:padding="4dp"
             android:layout_margin="4dp"
@@ -83,6 +85,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/customTruyen"
             android:background="@drawable/custom_truyen"
             android:padding="4dp"
             android:layout_margin="4dp"
@@ -111,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/primary_color"
-                android:text="Đọc truyện"
+                android:text="@string/docTruyen"
                 android:layout_margin="4dp"
                 android:textColor="@color/black" />
 
@@ -132,6 +135,7 @@
             android:layout_height="200dp"
             android:orientation="vertical"
             android:padding="4dp"
+            android:backgroundTint="?attr/customTruyen"
             android:background="@drawable/custom_truyen">
 
             <RelativeLayout
@@ -142,7 +146,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chương mới nhất"
+                    android:text="@string/chuongMoiNhat"
                     android:textColor="?attr/colorOnSecondary"
                     android:textSize="16dp"
                     android:textStyle="bold"/>
@@ -151,7 +155,7 @@
                     android:id="@+id/xem_danh_sach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xem danh sách chương"
+                    android:text="@string/xemDanhSachChuong"
                     android:textColor="@color/primary_color"
                     android:textSize="16dp"
                     android:textStyle="bold"
@@ -176,7 +180,7 @@
                 android:layout_margin="4dp"
                 android:layout_centerInParent="true"
                 android:backgroundTint="@color/primary_color"
-                android:text="Quay lại"
+                android:text="@string/quayLai"
                 android:textColor="@color/black" />
         </RelativeLayout>
 

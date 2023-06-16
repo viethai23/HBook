@@ -22,4 +22,9 @@
     <string name="tiengAnh">English</string>
     <string name="phienBan">App version</string>
     <string name="chiTietPhienBan">Version 0.0.1</string>
+    <string name="docTruyen">Start Reading</string>
+    <string name="chuongMoiNhat">Lastest Chapters</string>
+    <string name="xemDanhSachChuong">Chapter List</string>
+    <string name="quayLai">Back</string>
+    <string name="chuong">Chapter</string>
 </resources>

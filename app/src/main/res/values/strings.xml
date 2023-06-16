@@ -33,4 +33,9 @@
     <string name="tiengAnh">Tiếng Anh</string>
     <string name="phienBan">Thông tin phiên bản</string>
     <string name="chiTietPhienBan">Phiên bản 0.0.1</string>
+    <string name="docTruyen">Đọc truyện</string>
+    <string name="chuongMoiNhat">Chương mới nhất</string>
+    <string name="xemDanhSachChuong">Xem danh sách chương</string>
+    <string name="quayLai">Quay Lại</string>
+    <string name="chuong">Chương</string>
 </resources>

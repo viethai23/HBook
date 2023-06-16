@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hbookdemo.R;
 import com.example.hbookdemo.activities.GioiThieuTruyenActivity;
 import com.example.hbookdemo.adapter.TruyenAdapter;
+import com.example.hbookdemo.manager.LanguageManager;
 import com.example.hbookdemo.object.Truyen;
 
 import org.jsoup.Jsoup;
