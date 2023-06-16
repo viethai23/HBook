@@ -16,34 +16,39 @@
         android:background="@drawable/custom_chuong"
         android:padding="16dp"/>
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/view_dialog"
+        android:layout_height="match_parent"
         android:background="@drawable/custom_truyen">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_chuongtruyen_DL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal">
 
-            <ProgressBar
-                android:id="@+id/loading_dialog_down"
-                android:layout_alignParentTop="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/next_chuong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next"
+                android:layout_alignParentRight="true"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_chuongtruyen_DL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <ProgressBar
-                android:id="@+id/loading_dialog"
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/prev_chuong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_prev"
+                android:padding="4dp"
+                android:layout_alignParentLeft="true"/>
         </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
 
 
 </LinearLayout>
