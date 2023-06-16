@@ -80,10 +80,9 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private TruyenLichSu truyenLichSu;
     private Disposable disposable, disposable1, disposable2, disposable3, disposable4;
     private RecyclerView rcvViewChuongDL;
-    private NestedScrollView nestedScrollView;
-    private ProgressBar loadingU, loadingD;
+    private ImageView nextC, prevC;
     private int from;
-    private int page=1, pageD=1, lastP=1;
+    private int page=1, lastP=1;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -101,7 +100,6 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         truyenLichSu = (TruyenLichSu) b.getSerializable("truyenLS");
         if(b.getSerializable("vi tri page") == null) page = 1;
         else page = (int) b.getSerializable("vi tri page");
-        pageD = page;
         url = chuong.getUrlChuong();
         urlT = truyenLichSu.getTruyen().getTruyenUrl();
 
@@ -216,38 +214,41 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
 
         View customLayout = getLayoutInflater().inflate(R.layout.custom_chapter_dialog_layout, null);
         builder.setView(customLayout);
-        nestedScrollView = customLayout.findViewById(R.id.view_dialog);
-        loadingU = customLayout.findViewById(R.id.loading_dialog);
-        loadingD = customLayout.findViewById(R.id.loading_dialog_down);
         rcvViewChuongDL = customLayout.findViewById(R.id.rcv_chuongtruyen_DL);
 
-        loadingU.setVisibility(View.INVISIBLE);
-        loadingD.setVisibility(View.INVISIBLE);
+        nextC = customLayout.findViewById(R.id.next_chuong);
+        prevC = customLayout.findViewById(R.id.prev_chuong);
 
         rcvViewChuongDL.setLayoutManager(new LinearLayoutManager(customLayout.getContext()));
+        loadDataChuong();
 
-        loadDataChuongUp();
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        nextC.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScrollChange(@androidx.annotation.NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (!v.canScrollVertically(1)) {
-                    if (page < lastP ) {
-                        page++;
-                        loadDataChuongUp();
-                        loadingU.setVisibility(View.VISIBLE);
-                    }else {
-                        loadingU.setVisibility(View.INVISIBLE);
-                    }
+            public void onClick(View view) {
+                if(page < lastP) {
+                    mchuongList.clear();
+                    page++;
+                    loadDataChuong();
                 }
-                else if(!v.canScrollVertically(-1)) {
-                    if (pageD > 1) {
-                        pageD--;
-                        loadDataChuongDown();
-                    }
+                else {
+                    Toast.makeText(NoiDungTruyenActivity.this, "Đây là trang cuối cùng", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        prevC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(page > 1) {
+                    mchuongList.clear();
+                    page--;
+                    loadDataChuong();
+                }
+                else {
+                    Toast.makeText(NoiDungTruyenActivity.this, "Đây là trang đầu tiên", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         alertDialog = builder.create();
         alertDialog.setCancelable(true);
@@ -323,7 +324,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         return result;
     }
 
-    private void loadDataChuongUp() {
+    private void loadDataChuong() {
         disposable3 = Observable.fromCallable(() -> {
                     String currentPage= urlT + "?page="+Integer.toString(page);
                     List<Chuong> list = new ArrayList<>();
@@ -383,67 +384,6 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
 
     }
 
-    private void loadDataChuongDown() {
-        disposable4 = Observable.fromCallable(() -> {
-                    String currentPage= urlT + "?page="+Integer.toString(pageD);
-                    List<Chuong> list = new ArrayList<>();
-                    try {
-                        Document maindoc = Jsoup.connect(urlT).get();
-                        String lastPage = maindoc.select("li.last").select("a").attr("data-page");
-                        lastP = Integer.parseInt(lastPage)+1;
-                        Document doc = Jsoup.connect(currentPage).get();
-                        Elements content = doc.select("ul.list-chapter").select("a");
-                        int listChapsize = content.size();
-                        for(int i=0;i<listChapsize;i++) {
-                            String tenChap = content.select("span.chapter-text")
-                                    .eq(i)
-                                    .text();
-                            String chapUrl = "https://novelfull.com" + content
-                                    .eq(i)
-                                    .attr("href");
-                            list.add(new Chuong(tenChap, chapUrl));
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-
-                    return list;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(data -> {
-                    mchuongList.addAll(0, data);
-                    rcvViewChuongDL.setAdapter(new ChuongAdapter(mchuongList, new ChuongAdapter.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(Chuong chuong) {
-                            Bundle b = new Bundle();
-                            b.putSerializable("from", from);
-                            b.putSerializable("chuong", chuong);
-                            b.putSerializable("truyenLS", truyenLichSu);
-                            b.putSerializable("vi tri page", page);
-                            Intent intent = new Intent(NoiDungTruyenActivity.this,NoiDungTruyenActivity.class);
-                            intent.putExtra("data chuong",b);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Fade fade = new Fade();
-                                fade.setDuration(500);
-                                getWindow().setEnterTransition(fade);
-                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(NoiDungTruyenActivity.this);
-                                startActivity(intent, options.toBundle());
-                            } else {
-                                startActivity(intent);
-                            }
-                        }
-
-                    }));
-
-
-                }, error -> {
-                    Log.d("TTT", "Loi lay truyen");
-                });
-
-    }
 
     private void loadData() {
         disposable = Observable.fromCallable(() -> {
