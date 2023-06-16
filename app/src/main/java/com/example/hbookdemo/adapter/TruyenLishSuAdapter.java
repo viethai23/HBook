@@ -78,6 +78,7 @@ public class TruyenLishSuAdapter extends RecyclerView.Adapter<TruyenLishSuAdapte
                 tacgia="Tác giả";
                 chuongmoi = "Chương hiện tại";
             }
+            titleTextView.setText(truyenlichsu.getTruyen().getTenTruyen());
             authorTextView.setText(tacgia + ": " + truyenlichsu.getTruyen().getTacGia());
             chapterCurrentTextView.setText(chuongmoi + ": " + truyenlichsu.getChuong().getTenChuong());
             Glide.with(itemView.getContext())
