@@ -24,7 +24,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.NoiDungTruyenActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".activities.GioiThieuTruyenActivity"
             android:exported="false" />

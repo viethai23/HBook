@@ -19,12 +19,16 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -81,6 +85,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
     private Disposable disposable, disposable1, disposable2, disposable3, disposable4;
     private RecyclerView rcvViewChuongDL;
     private ImageView nextC, prevC;
+    private EditText toC;
     private int from;
     private int page=1, lastP=1;
 
@@ -218,9 +223,33 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
 
         nextC = customLayout.findViewById(R.id.next_chuong);
         prevC = customLayout.findViewById(R.id.prev_chuong);
+        toC = customLayout.findViewById(R.id.to_chuong);
 
         rcvViewChuongDL.setLayoutManager(new LinearLayoutManager(customLayout.getContext()));
         loadDataChuong();
+        toC.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_GO) {
+                    String text = toC.getText().toString();
+                    page = Integer.parseInt(text);
+                    if(page > lastP)
+                        page = lastP;
+                    else if(page < 1)
+                        page = 1;
+                    Log.d("TTT", String.valueOf(page));
+                    toC.setText("");
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isAcceptingText()) {
+                        imm.hideSoftInputFromWindow(alertDialog.getCurrentFocus().getWindowToken(), 0);
+                    }
+                    mchuongList.clear();
+                    loadDataChuong();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         nextC.setOnClickListener(new View.OnClickListener() {
             @Override
