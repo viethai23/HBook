@@ -230,7 +230,7 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(@androidx.annotation.NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                if (!v.canScrollVertically(1)) {
                     if (page < lastP ) {
                         page++;
                         loadDataChuongUp();
@@ -239,13 +239,10 @@ public class NoiDungTruyenActivity extends AppCompatActivity {
                         loadingU.setVisibility(View.INVISIBLE);
                     }
                 }
-                else if(scrollY == 0) {
+                else if(!v.canScrollVertically(-1)) {
                     if (pageD > 1) {
                         pageD--;
                         loadDataChuongDown();
-                        loadingD.setVisibility(View.VISIBLE);
-                    }else {
-                        loadingD.setVisibility(View.INVISIBLE);
                     }
                 }
             }
